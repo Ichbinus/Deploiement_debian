@@ -14,14 +14,14 @@
 # REVISION: ---
 #=======================================================================
 ##Définition des variables
-
+folder=$(pwd)
 
 #=======================================================================
 ##Définition des fonctions
-source "installation Malwarebytes"
+source "$folder/malwarebytes.sh"
 source "intégration au domaine"
-source "installation OCS"
-source "installation LAPS"
+source "$folder/ocs.sh"
+source "$folder/ldap.sh"
 source "installation vpn"
 source "paramétrage des depots"
 source "installation des paquets métier"
@@ -63,7 +63,7 @@ while true ;do
                 echo "Déploiement/intégration complète du poste au domaine"
                 ;;
         m|M)
-                #func_Installation Malwarebytes
+                #func_malwarebytes
                 echo "Installation Malwarebytes"
                 ;;
         d|D)
@@ -71,11 +71,11 @@ while true ;do
                 echo "Intégration au domaine"
                 ;;
         o|O)
-                #func_Installation OCS
+                #func_ocs
                 echo "Installation OCS"
                 ;;
         l|L)
-                #func_Installation LAPS
+                #func_ldap
                 echo "Installation LAPS"
                 ;;
         v|V)
