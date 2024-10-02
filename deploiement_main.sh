@@ -19,7 +19,7 @@ folder=$(pwd)
 #=======================================================================
 ##Définition des fonctions
 source "$folder/malwarebytes.sh"
-source "intégration au domaine"
+source "$folder/integration_domain.sh"
 source "$folder/ocs.sh"
 source "$folder/ldap.sh"
 source "installation vpn"
@@ -63,11 +63,11 @@ while true ;do
                 echo "Déploiement/intégration complète du poste au domaine"
                 ;;
         m|M)
-                #func_malwarebytes
-                echo "Installation Malwarebytes"
+                func_malwarebytes
+                #echo "Installation Malwarebytes"
                 ;;
         d|D)
-                #func_Intégration au domaine
+                #func_integration_domain
                 echo "Intégration au domaine"
                 ;;
         o|O)
