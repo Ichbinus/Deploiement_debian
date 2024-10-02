@@ -71,11 +71,11 @@ while true ;do
                 #echo "Intégration au domaine"
                 ;;
         o|O)
-                #func_ocs
+                func_ocs
                 echo "Installation OCS"
                 ;;
         l|L)
-                #func_ldap
+                #func_laps
                 echo "Installation LAPS"
                 ;;
         v|V)

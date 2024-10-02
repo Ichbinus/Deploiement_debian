@@ -78,7 +78,7 @@ echo "decompression archive de l'Agent"
     sleep 2
 
 echo "Installation sans interaction de l'agent"
-	if func_installation >> /dev/null 2>> $log_erreurs; then
+	if func_installation 2>> $log_erreurs; then
 		echo "Installation du package OCS réussies"
 	else
 		echo "Erreur lors de l'installation du package OCS"
