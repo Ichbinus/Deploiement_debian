@@ -34,7 +34,6 @@ func_dependances(){
 }
 
 func_nommage(){
-    read -p "comment voulez-vous nommer ce poste?" nom_poste
     echo $nom_poste > /etc/hostname
     sed -i "/^127.0.1.1/c\127.0.1.1 $nom_poste.operis.champlan $nom_poste" /etc/hosts
 }
@@ -109,13 +108,41 @@ func_allowedgg(){
 }
 
 func_sudo(){
-    sed -i '/root    ALL=(ALL:ALL) ALL/a operis    ALL=(ALL)  NOPASSWD:ALL' $samba_file
-    sed -i '/operis    ALL=(ALL)  NOPASSWD:ALL/a %grp_adm_poste@OPERIS.CHAMPLAN    ALL=(ALL)  NOPASSWD:ALL' $samba_file
+    # Utiliser un fichier temporaire pour faire les modifications
+    temp_sudoers=$(mktemp)
+    # Copier le contenu actuel de /etc/sudoers dans le fichier temporaire
+    cp /etc/sudoers $temp_sudoers
+    # Modifier le fichier temporaire
+    sed -i '/root    ALL=(ALL:ALL) ALL/a operis    ALL=(ALL)  NOPASSWD:ALL' $temp_sudoers
+    sed -i '/operis    ALL=(ALL)  NOPASSWD:ALL/a %grp_adm_poste@OPERIS.CHAMPLAN    ALL=(ALL)  NOPASSWD:ALL' $temp_sudoers
+    # Utiliser visudo pour vérifier et appliquer les modifications
+    visudo -c -f $temp_sudoers
+    if [ $? -eq 0 ]; then
+        # Si la vérification est correcte, déplacer le fichier temporaire vers /etc/sudoers
+        cp $temp_sudoers /etc/sudoers
+        echo "Modifications appliquées avec succès."
+    else
+        echo "Erreur de syntaxe détectée dans les modifications. Les modifications n'ont pas été appliquées."
+    fi
+    # Nettoyer le fichier temporaire
+    rm $temp_sudoers
 }
 
 func_root(){
-    sed -i "/root:x:0:0:root:/root:/bin/bash/c\# root:x:0:0:root:/root:/usr/sbin/nologin" $samba_file
+    # Définir le fichier à modifier, qui est /etc/passwd, pas un fichier Samba
+    local passwd_file="/etc/passwd"
+        # Créer une sauvegarde de sécurité avant toute modification
+    cp $passwd_file ${passwd_file}.bak
+    # Désactiver la connexion root en modifiant le shell de login
+    sed -i '/^root:x:0:0:root:/s#/bin/bash#/usr/sbin/nologin#' $passwd_file
+    # Vérifier si la modification a été appliquée
+    if grep -q "^root:x:0:0:root:/root:/usr/sbin/nologin" $passwd_file; then
+        echo "Connexion root désactivée avec succès."
+    else
+        echo "Erreur lors de la désactivation de la connexion root."
+    fi
 }
+
 #=======================================================================
 ###Script
 
@@ -132,6 +159,12 @@ echo "Mise a jour dependances pour l'intégration AD"
 
 ##nommage du poste
 echo "nommage du poste en conformité avec le domaine"
+    read -p "comment voulez-vous nommer ce poste?" nom_poste
+    while [-z $nom_poste]; do
+        echo "Erreur lors de la saisie du nom du poste."
+        read -p "comment voulez-vous nommer ce poste?" nom_poste
+    done
+    
 	if func_nommage >> /dev/null 2>> $log_erreurs; then
 		echo "Renommage du poste réussie"
 	else
