@@ -67,8 +67,8 @@ while true ;do
                 #echo "Installation Malwarebytes"
                 ;;
         d|D)
-                #func_integration_domain
-                echo "Intégration au domaine"
+                func_integration_domain
+                #echo "Intégration au domaine"
                 ;;
         o|O)
                 #func_ocs
