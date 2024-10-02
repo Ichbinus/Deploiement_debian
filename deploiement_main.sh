@@ -18,10 +18,10 @@ folder=$(pwd)
 
 #=======================================================================
 ##Définition des fonctions
-source "$folder/malwarebytes.sh"
-source "$folder/integration_domain.sh"
-source "$folder/ocs.sh"
-source "$folder/ldap.sh"
+source "$folder/Malwarebytes_linux/malwarebytes.sh"
+source "$folder/Integration_domain/integration_domain.sh"
+source "$folder/OCS_Linux/ocs.sh"
+source "$folder/Laps_Linux/laps.sh"
 #source "installation vpn"
 #source "paramétrage des depots"
 #source "installation des paquets métier"
@@ -47,7 +47,7 @@ read -n 1 -p "votre choix: " choix
 }
 #=======================================================================
 ## Nettoyage de l'écran
-clear
+#clear
 
 #=======================================================================
 ##Script
