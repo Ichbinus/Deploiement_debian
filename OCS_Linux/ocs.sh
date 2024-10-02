@@ -38,14 +38,13 @@ func_nettoyage(){
 }
 
 func_decompression(){
-	tar xvzf "$folder/Ocsinventory-Unix-Agent-2.10.2.tar.gz"
+	tar xvzf "$folder/OCS_Linux/Ocsinventory-Unix-Agent-2.10.2.tar.gz"
 	cd "$folder/Ocsinventory-Unix-Agent-2.10.2"
 }
 
 func_installation(){
-    read -p "Les poste est déployé dans quel service?" service
 	env PERL_AUTOINSTALL=1 perl Makefile.PL && make && make install && perl postinst.pl --server=$server --basevardir=$basevardir --configdir=$configdir --logfile=$logfile --crontab  --tag=$service --ssl=1 --nosoftware=0 --ca=$ca --debug --snmp --nowizard
-	mv "$folder/cacert.pem" $configdir
+	mv "$folder/OCS_Linux/cacert.pem" $configdir
 }
 #======================================================================= 
 ##Script
@@ -78,6 +77,7 @@ echo "decompression archive de l'Agent"
     sleep 2
 
 echo "Installation sans interaction de l'agent"
+    read -p "Le poste est déployé dans quel service?" service
 	if func_installation 2>> $log_erreurs; then
 		echo "Installation du package OCS réussies"
 	else
