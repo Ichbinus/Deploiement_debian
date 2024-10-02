@@ -19,7 +19,7 @@ folder=$(pwd) ##dossier local
 log_erreurs="$folder/err_log.log"
 krb5_file="/etc/krb5.conf"
 ntp_file="/etc/ntpsec/ntp.conf"
-folder_file="/etc/pam.d/common-session:"
+folder_file="/etc/pam.d/common-session"
 samba_file="/etc/samba/smb.conf"
 sssd_file="/etc/sssd/sssd.conf"
 domain="operis.champlan"
@@ -125,17 +125,19 @@ echo "Mise a jour dependances pour l'intégration AD"
 	else
 		echo "Erreur lors de la mise a jour dependances nécessaire à l'intégration AD"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
 
 ##nommage du poste
-echo "Mise a jour dependances pour l'intégration AD"
+echo "nommage du poste en conformité avec le domaine"
 	if func_nommage >> /dev/null 2>> $log_erreurs; then
 		echo "Renommage du poste réussie"
 	else
 		echo "Erreur lors du renommage du poste"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -146,6 +148,7 @@ echo "paramétrage du fichier krb5.conf"
 	else
 		echo "Erreur lors du paramétrage du fichier krb5.conf"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -156,6 +159,7 @@ echo "Synchronisation du temps de la machine avec le serveur"
 	else
 		echo "Erreur lors de la synchronisation du temps de la machine avec le serveur"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -166,6 +170,7 @@ echo "Paramétrage création dossier perso user"
 	else
 		echo "Erreur lors du paramétrage création dossier perso user"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -176,6 +181,7 @@ echo "Paramétrage samba"
 	else
 		echo "Erreur lors du paramétrage samba"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -186,6 +192,7 @@ echo "Paramétrage sssd"
 	else
 		echo "Erreur lors du Paramétrage sssd"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -196,22 +203,19 @@ echo "Validation configuration pour la jonction au domain"
 	else
 		echo "Erreur dans la configuration pour jonction au domain"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
 echo "Jonction au domain"
     read -p "Veuillez saisir un compte administrateur domaine pour procéder à l'intégration au domains du poste:" user
-    while ! id "$user@$domain" &> /dev/null ;do
-        echo "nom d'utilisateur introuvable"
-        read -p "Veuillez saisir un compte administrateur domaine pour procéder à l'intégration au domains du poste:" user
+    while ! realm join -U "$user" "$domain" >> /dev/null 2>> "$log_erreurs"; do
+        echo "Erreur lors de la jonction au domaine."
+        echo "Nom d'utilisateur ou mot de passe incorrect. Veuillez réessayer."
+        read -p "Veuillez saisir un compte administrateur domaine valide : " user
     done
-
-	if realm join -U $user $domain >> /dev/null 2>> $log_erreurs; then
-		echo "Jonction au domain réalisé avec succès"
-	else
-		echo "Erreur lors de la jonction au domain."
-		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
-	fi
+    echo "Jonction au domaine réalisée avec succès."
+    echo "Logs d'erreurs disponibles dans le fichier : $log_erreurs"
     sleep 2
  
 ##paramétrage des autorisations d'accès
@@ -221,6 +225,7 @@ echo "Paramétrage des autorisations d'accès"
 	else
 		echo "Erreur dans la configuration pour jonction au domain"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -231,6 +236,7 @@ echo "Gestion des droits sudos"
 	else
 		echo "Erreur dans la gestion des droits sudos"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
@@ -241,6 +247,7 @@ echo "Désactivation du compte root"
 	else
 		echo "Erreur dans la désactivation du compte root"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
 	fi
     sleep 2
 
