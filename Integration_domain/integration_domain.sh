@@ -24,8 +24,7 @@ samba_file="/etc/samba/smb.conf"
 sssd_file="/etc/sssd/sssd.conf"
 domain="operis.champlan"
 Allowed_GG=(GRP_ADM_POSTE GRP_ADM_DOM "Tous les sites")
-root_file="/etc/sudoers"
-sudo_file="etc/passwd"
+sudo_file="/etc/sudoers"
 #=======================================================================
 ##Définition des fonctions
 func_dependances(){
@@ -108,24 +107,10 @@ func_allowedgg(){
 }
 
 func_sudo(){
-    # Utiliser un fichier temporaire pour faire les modifications
-    temp_sudoers=$(mktemp)
-    # Copier le contenu actuel de /etc/sudoers dans le fichier temporaire
-    cp /etc/sudoers $temp_sudoers
-    # Modifier le fichier temporaire
-    sed -i '/root    ALL=(ALL:ALL) ALL/a operis    ALL=(ALL)  NOPASSWD:ALL' $temp_sudoers
-    sed -i '/operis    ALL=(ALL)  NOPASSWD:ALL/a %grp_adm_poste@OPERIS.CHAMPLAN    ALL=(ALL)  NOPASSWD:ALL' $temp_sudoers
-    # Utiliser visudo pour vérifier et appliquer les modifications
-    visudo -c -f $temp_sudoers
-    if [ $? -eq 0 ]; then
-        # Si la vérification est correcte, déplacer le fichier temporaire vers /etc/sudoers
-        cp $temp_sudoers /etc/sudoers
-        echo "Modifications appliquées avec succès."
-    else
-        echo "Erreur de syntaxe détectée dans les modifications. Les modifications n'ont pas été appliquées."
-    fi
-    # Nettoyer le fichier temporaire
-    rm $temp_sudoers
+    chmod +w $sudo_file
+    sed -i '/root    ALL=(ALL:ALL) ALL/a operis    ALL=(ALL)  NOPASSWD:ALL' $sudo_file
+    sed -i '/operis    ALL=(ALL)  NOPASSWD:ALL/a %grp_adm_poste@OPERIS.CHAMPLAN    ALL=(ALL)  NOPASSWD:ALL' $sudo_file
+    chmod -w $sudo_file
 }
 
 func_root(){
@@ -164,9 +149,9 @@ echo "nommage du poste en conformité avec le domaine"
         echo "Erreur lors de la saisie du nom du poste."
         read -p "comment voulez-vous nommer ce poste?" nom_poste
     done
-    
+
 	if func_nommage >> /dev/null 2>> $log_erreurs; then
-		echo "Renommage du poste réussie"
+		echo "Renommage du poste réussie : $nom_poste@$domain"
 	else
 		echo "Erreur lors du renommage du poste"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
