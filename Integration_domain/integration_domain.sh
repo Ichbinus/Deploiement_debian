@@ -24,7 +24,8 @@ samba_file="/etc/samba/smb.conf"
 sssd_file="/etc/sssd/sssd.conf"
 domain="operis.champlan"
 Allowed_GG=(GRP_ADM_POSTE GRP_ADM_DOM "Tous les sites")
-sudo_file="/etc/sudoers"
+local_admin="operis"
+GG_admin="grp_adm_poste"
 #=======================================================================
 ##Définition des fonctions
 func_dependances(){
@@ -106,12 +107,34 @@ func_allowedgg(){
     done
 }
 
-func_sudo(){
-    chmod +w $sudo_file
-    sed -i '/root    ALL=(ALL:ALL) ALL/a operis    ALL=(ALL)  NOPASSWD:ALL' $sudo_file
-    sed -i '/operis    ALL=(ALL)  NOPASSWD:ALL/a %grp_adm_poste@OPERIS.CHAMPLAN    ALL=(ALL)  NOPASSWD:ALL' $sudo_file
-    chmod -w $sudo_file
+func_sudo() {
+    local sudoers_file="/etc/sudoers"
+    # Créer une sauvegarde de sécurité du fichier sudoers
+    cp $sudoers_file ${sudoers_file}.bak
+    # Ajouter l'utilisateur local aux sudoers
+    if ! grep -q "^$local_admin ALL=(ALL) NOPASSWD:ALL" $sudoers_file; then
+        echo "$local_admin ALL=(ALL) NOPASSWD:ALL" >> $sudoers_file
+        echo "Droits sudo ajoutés pour l'utilisateur local : $local_admin"
+    else
+        echo "L'utilisateur local $local_admin a déjà les droits sudo."
+    fi
+    # Ajouter le groupe AD aux sudoers
+    if ! grep -q "^%$GG_admin@$domain ALL=(ALL) NOPASSWD:ALL" $sudoers_file; then
+        echo "%$GG_admin@$domain ALL=(ALL) NOPASSWD:ALL" >> $sudoers_file
+        echo "Droits sudo ajoutés pour le groupe AD : $GG_admin@$domain"
+    else
+        echo "Le groupe AD $GG_admin@$domain a déjà les droits sudo."
+    fi
+    # Vérifier la syntaxe de sudoers avant d'appliquer les modifications
+    visudo -c
+    if [ $? -eq 0 ]; then
+        echo "Les modifications ont été appliquées avec succès."
+    else
+        echo "Erreur de syntaxe dans le fichier sudoers. Restauration de la sauvegarde."
+        cp ${sudoers_file}.bak $sudoers_file
+    fi
 }
+
 
 func_root(){
     # Définir le fichier à modifier, qui est /etc/passwd, pas un fichier Samba
