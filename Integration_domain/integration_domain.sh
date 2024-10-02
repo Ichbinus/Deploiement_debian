@@ -120,7 +120,7 @@ func_root(){
 ###Script
 
 echo "Mise a jour dependances pour l'intégration AD"
-	if func_dependances >> /dev/null 2>> $log_erreurs; then
+	if func_dependances 2>> $log_erreurs; then
 		echo "Mise a jour dependances nécessaire à l'intégration AD réussie"
 	else
 		echo "Erreur lors de la mise a jour dependances nécessaire à l'intégration AD"

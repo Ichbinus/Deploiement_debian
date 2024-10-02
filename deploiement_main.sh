@@ -98,5 +98,5 @@ while true ;do
                 exit 1
                 ;;
         esac
-        clear
+
 done
