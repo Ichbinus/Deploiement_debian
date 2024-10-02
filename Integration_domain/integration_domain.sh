@@ -256,7 +256,6 @@ echo "Jonction au domain"
         read -p "Veuillez saisir un compte administrateur domaine valide : " user
     done
     echo "Jonction au domaine réalisée avec succès."
-    echo "Logs d'erreurs disponibles dans le fichier : $log_erreurs"
     sleep 2
  
 ##paramétrage des autorisations d'accès
