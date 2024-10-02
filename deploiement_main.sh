@@ -22,10 +22,10 @@ source "$folder/malwarebytes.sh"
 source "$folder/integration_domain.sh"
 source "$folder/ocs.sh"
 source "$folder/ldap.sh"
-source "installation vpn"
-source "paramétrage des depots"
-source "installation des paquets métier"
-source "installation applications (teams,...)"
+#source "installation vpn"
+#source "paramétrage des depots"
+#source "installation des paquets métier"
+#source "installation applications (teams,...)"
 
 func_menu()
 {
@@ -43,7 +43,7 @@ echo "P - Installation des paquets métier"
 echo "A - Installation applications (teams,...)"
 echo ""
 echo "Q - quitter"
-read -p "votre choix: " choix
+read -n 1 -p "votre choix: " choix
 }
 #=======================================================================
 ## Nettoyage de l'écran
@@ -98,4 +98,5 @@ while true ;do
                 exit 1
                 ;;
         esac
+        clear
 done
