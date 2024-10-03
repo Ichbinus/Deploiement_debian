@@ -21,7 +21,7 @@ folder=$(pwd)
 source "$folder/Malwarebytes_linux/malwarebytes.sh"
 source "$folder/Integration_domain/integration_domain.sh"
 source "$folder/OCS_Linux/ocs.sh"
-source "$folder/Laps_Linux/laps.sh"
+source "$folder/Laps_Linux/installation_laps.sh"
 #source "installation vpn"
 #source "paramétrage des depots"
 #source "installation des paquets métier"
@@ -38,6 +38,7 @@ echo "D - Intégration au domaine"
 echo "O - Installation OCS"
 echo "L - Installation LAPS"
 echo "V - Installation vpn"
+echo "W - Installation vpn"
 echo "R - Paramétrage des depots"
 echo "P - Installation des paquets métier"
 echo "A - Installation applications (teams,...)"
@@ -72,16 +73,20 @@ while true ;do
                 ;;
         o|O)
                 func_ocs
-                echo "Installation OCS"
+                #echo "Installation OCS"
                 ;;
         l|L)
-                #func_laps
+                func_installation_laps
                 echo "Installation LAPS"
                 ;;
         v|V)
                 #func_Installation vpn
                 echo "Installation vpn"
                 ;;
+        w|W)
+                #func_Installation Wazhu
+                echo "Installation Wazhu"
+                ;;        
         r|R)
                 #func_Paramétrage des depots
                 echo "Paramétrage des depots"
