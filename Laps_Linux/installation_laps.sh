@@ -16,6 +16,7 @@ func_installation_laps(){
 #=======================================================================
 ##Définition des variables
 folder=$(pwd) ##dossier local
+log_erreurs="$folder/err_log.log"
 keytab_file="$folder/Laps_Linux/User_Laps4Linux.keytab"
 laps_script="$folder/Laps_Linux/laps.sh"
 laps_folder="/etc/laps/"
@@ -49,7 +50,7 @@ func_cron(){
 }
 
 func_lancement_laps(){
-    ./etc/laps/laps.sh
+    /etc/laps/laps.sh
 }
 #=======================================================================
 ##Script

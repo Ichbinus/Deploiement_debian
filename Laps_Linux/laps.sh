@@ -2,7 +2,7 @@
 #=======================================================================
 # FILE: ~laps.sh
 # USAGE: ./~laps.sh
-# DESCRIPTION: mise en place d'un pseudo LAPS fonctionnant sous linux avec un AD windows
+# DESCRIPTION: pseudo LAPS fonctionnant sous linux avec un AD windows
 #
 # OPTIONS: ---
 # REQUIREMENTS: ---
