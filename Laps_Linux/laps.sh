@@ -1,5 +1,3 @@
-func_laps()
-{
 #!/bin/bash
 #=======================================================================
 # FILE: ~laps.sh
@@ -123,4 +121,3 @@ EOF
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Password for $USER changed and updated in AD for $HOSTNAME" >> "$LOG_FILE"
 echo "Password for $USER has been updated locally and in AD."
-}
