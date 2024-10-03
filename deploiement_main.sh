@@ -90,8 +90,8 @@ while true ;do
                 ;;
         w|W)
                 echo ""
-                #func_Installation Wazhu
-                echo "Installation Wazhu"
+                func_Installation Wazhu
+                #echo "Installation Wazhu"
                 ;;        
         r|R)
                 echo ""
