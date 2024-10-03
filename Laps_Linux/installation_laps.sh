@@ -83,14 +83,14 @@ echo "Automatisation du script Laps"
 	if func_cron 2>> $log_erreurs; then
 		echo "Le job cron de Laps a été ajouté à la crontab de root."
 	else
-		echo "Erreur lors du transfert des éléments Laps"
+		echo "Erreur lors de job cron de Laps à la crontab de root"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
         exit 1
 	fi
     sleep 2
 
 echo "Premier lancement du script Laps"
-	if func_cron 2>> $log_erreurs; then
+	if func_lancement_laps 2>> $log_erreurs; then
 		echo "Premier lancement du script Laps réussie."
         echo "Vous pouvez récupéré le mots de passe de l'admin local (operis) via le LAPS sur le contrôleur de domaine."
 	else

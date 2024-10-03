@@ -38,7 +38,7 @@ echo "D - Intégration au domaine"
 echo "O - Installation OCS"
 echo "L - Installation LAPS"
 echo "V - Installation vpn"
-echo "W - Installation vpn"
+echo "W - Installation Wazhu"
 echo "R - Paramétrage des depots"
 echo "P - Installation des paquets métier"
 echo "A - Installation applications (teams,...)"
@@ -64,38 +64,47 @@ while true ;do
                 echo "Déploiement/intégration complète du poste au domaine"
                 ;;
         m|M)
+                echo ""
                 func_malwarebytes
                 #echo "Installation Malwarebytes"
                 ;;
         d|D)
+                echo ""
                 func_integration_domain
                 #echo "Intégration au domaine"
                 ;;
         o|O)
+                echo ""
                 func_ocs
                 #echo "Installation OCS"
                 ;;
         l|L)
+                echo ""
                 func_installation_laps
-                echo "Installation LAPS"
+                #echo "Installation LAPS"
                 ;;
         v|V)
+                echo ""
                 #func_Installation vpn
                 echo "Installation vpn"
                 ;;
         w|W)
+                echo ""
                 #func_Installation Wazhu
                 echo "Installation Wazhu"
                 ;;        
         r|R)
+                echo ""
                 #func_Paramétrage des depots
                 echo "Paramétrage des depots"
                 ;;
         p|P)
+                echo ""
                 #func_Installation des paquets métier
                 echo "Installation des paquets métier"
                 ;;
         a|A)
+                echo ""
                 #func_Installation applications (teams,...)
                 echo "Installation applications (teams,...)"
                 ;;
