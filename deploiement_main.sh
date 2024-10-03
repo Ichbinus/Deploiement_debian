@@ -23,6 +23,7 @@ source "$folder/Integration_domain/integration_domain.sh"
 source "$folder/OCS_Linux/ocs.sh"
 source "$folder/Laps_Linux/installation_laps.sh"
 #source "installation vpn"
+source "$folder/Agent_Wazhu/installation_wazhu.sh"
 #source "paramétrage des depots"
 #source "installation des paquets métier"
 #source "installation applications (teams,...)"
@@ -90,7 +91,7 @@ while true ;do
                 ;;
         w|W)
                 echo ""
-                func_Installation Wazhu
+                func_wazhu
                 #echo "Installation Wazhu"
                 ;;        
         r|R)
@@ -109,6 +110,7 @@ while true ;do
                 echo "Installation applications (teams,...)"
                 ;;
         q|Q)
+                echo ""
                 exit 1
                 ;;
         esac

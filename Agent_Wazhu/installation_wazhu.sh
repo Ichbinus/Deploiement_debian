@@ -14,6 +14,7 @@ func_wazhu(){
 # REVISION: ---
 #=======================================================================
 ##Définition des variables
+log_erreurs="$folder/err_log.log"
 WAZUH_MANAGER="192.168.44.8"
 hostname=$(hostname)
 cdm_install="WAZUH_MANAGER=$WAZUH_MANAGER WAZUH_AGENT_NAME=$hostname dpkg -i ./wazuh-agent_4.8.1-1_amd64.deb"
