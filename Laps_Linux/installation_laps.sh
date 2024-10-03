@@ -50,7 +50,12 @@ func_cron(){
 }
 
 func_lancement_laps(){
-    /etc/laps/laps.sh
+    if [ "$EUID" -ne 0 ]; then
+        /etc/laps/laps.sh
+    else
+        sudo /etc/laps/laps.sh
+    fi
+    
 }
 #=======================================================================
 ##Script
@@ -64,7 +69,7 @@ echo "Préparation de l'environnement laps"
 	fi
     sleep 2
 
-echo "Transfert des éléments Laps réussie"
+echo "Transfert des éléments Laps"
 	if func_transfert 2>> $log_erreurs; then
 		echo "Transfert des éléments Laps réussie"
 	else
