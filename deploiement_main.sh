@@ -22,7 +22,7 @@ source "$folder/Malwarebytes_linux/malwarebytes.sh"
 source "$folder/Integration_domain/integration_domain.sh"
 source "$folder/OCS_Linux/ocs.sh"
 source "$folder/Laps_Linux/installation_laps.sh"
-#source "installation vpn"
+source "$folder/VPN_Forticlient/installation_vpn.sh"
 source "$folder/Agent_Wazhu/installation_wazhu.sh"
 #source "paramétrage des depots"
 #source "installation des paquets métier"
@@ -86,8 +86,8 @@ while true ;do
                 ;;
         v|V)
                 echo ""
-                #func_Installation vpn
-                echo "Installation vpn"
+                func_Installation_vpn
+                #echo "Installation vpn"
                 ;;
         w|W)
                 echo ""
