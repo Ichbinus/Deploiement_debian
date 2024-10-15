@@ -1,4 +1,5 @@
-#!/usr/bin/bash
+func_Installation_vpn()
+{
 #=======================================================================
 # FILE: ~installation_vpn.sh
 # USAGE: ./~installation_vpn.sh
@@ -69,3 +70,4 @@ echo "Configuration du vpn"
         exit 1
 	fi
     sleep 2
+}
