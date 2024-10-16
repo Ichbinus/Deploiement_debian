@@ -18,9 +18,9 @@ func_Installation_vpn()
 ##Définition des variables
 folder=$(pwd) ##dossier local
 log_erreurs="$folder/err_log.log"
-script_conf="$folder/VPN_Forticlient/configuration_vpn.sh"
 CERT_PATH1="$folder/VPN_Forticlient/client.pfx"
 CERT_PATH2="/opt/forticlient/client.pfx"
+
 
 #=======================================================================
 ##Définition des fonctions
@@ -40,7 +40,7 @@ func_installation(){
 
 #=======================================================================
 ##Script
-echo "Mise a jour dependances pour l'installation du vpn"
+echo -e "\033[1m Mise a jour dependances pour l'installation du vpn\033[0m"
 	if func_dependances 2>> $log_erreurs; then
 		echo "Mise a jour dependances nécessaire à l'installation du vpn réussie"
 	else
@@ -50,7 +50,7 @@ echo "Mise a jour dependances pour l'installation du vpn"
 	fi
     sleep 2
 
-echo "Installation du vpn"
+echo "\033[1m Installation du vpn\033[0m"
 	if func_installation 2>> $log_erreurs; then
 		echo "Installation du vpn réussie"
 	else
@@ -60,14 +60,10 @@ echo "Installation du vpn"
 	fi
     sleep 2
 
-echo "Configuration du vpn"
-    chmod +x $script_conf
-    if script_conf 2>> $log_erreurs; then
-    	echo "Configuration du vpn réussie"
-	else
-		echo "Erreur lors de la configuration du vpn"
-		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
-        exit 1
-	fi
-    sleep 2
+echo "\033[1m Configuration du vpn \033[0m"
+echo "Pour configurer la connexion vpn, charger dans le forticlient le fichier forti_7_linux.conf"
+echo "Emplacement du fichier /tmp/Deploiement_debian/VPN_Forticlient/forti_7_linux.conf\n"
+echo "Saisir le mot de passe du certificat dans les paramètres de la connexion"
+echo "Le mot de passe est dans le keypass du service infra"
+
 }
