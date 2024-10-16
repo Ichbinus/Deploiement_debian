@@ -26,7 +26,6 @@ CERT_PATH2="/opt/forticlient/client.pfx"
 ##Définition des fonctions
 func_dependances(){
 	apt-get update
-	apt-get install -y expect
 }
 
 func_installation(){
