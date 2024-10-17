@@ -25,8 +25,7 @@ source "$folder/Laps_Linux/installation_laps.sh"
 source "$folder/VPN_Forticlient/Installation_vpn.sh"
 source "$folder/Agent_Wazhu/installation_wazhu.sh"
 #source "paramétrage des depots"
-source "$folder/Packages_métiers/installations_packages.sh"
-#source "installation applications (teams,...)"
+source "$folder/Packages_metiers/installations_packages.sh"
 
 func_menu()
 {
@@ -42,7 +41,6 @@ echo "V - Installation vpn"
 echo "W - Installation Wazhu"
 echo "R - Paramétrage des depots"
 echo "P - Installation des paquets métier"
-echo "A - Installation applications (teams,...)"
 echo ""
 echo "Q - quitter"
 read -n 1 -p "votre choix: " choix
@@ -101,13 +99,8 @@ while true ;do
                 ;;
         p|P)
                 echo ""
-                func_Installation des paquets métier
+                func_installations_packages
                 #echo "Installation des paquets métier"
-                ;;
-        a|A)
-                echo ""
-                #func_Installation applications (teams,...)
-                echo "Installation applications (teams,...)"
                 ;;
         q|Q)
                 echo ""

@@ -23,12 +23,12 @@ log_erreurs="$folder/err_log.log"
 ##Définition des fonctions
 func_outils_admin_poste(){
 	apt-get update
-    apt install -y net-tools curl Wget htop micro tree gpg gnupg2 
+    apt install -y net-tools curl wget htop micro tree gpg gnupg2 
 }
 
 func_outils_devs(){
 	apt-get update
-    apt install -y git git-extras Gitk Meld jq Yq Fd Ripgrep Parcellite pandoc cloc Fzf Shellcheck dconf-cli Gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager inotify-tools Shutter Sshfs terminator Uuid wl-clipboard Flatpak Apache2 Nginx make build-essential libssl-dev zlib1g-dev libreadline-dev libbz2-dev libsqlite3-dev llvm libncurses5-dev php keepass2 pass
+    apt install -y git git-extras gitk meld jq yq fd-find ripgrep parcellite pandoc cloc fzf shellcheck dconf-cli gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager inotify-tools shutter sshfs terminator uuid wl-clipboard flatpak apache2 nginx make build-essential libssl-dev zlib1g-dev libreadline-dev libbz2-dev libsqlite3-dev llvm libncurses5-dev php keepass2 pass
 }
 
 func_vscode(){
@@ -69,6 +69,14 @@ func_powershell(){
     apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     groupadd docker
     usermod -aG docker $USER
+}
+
+func_virtualbox(){
+	wget -O- -q https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --dearmour -o /usr/share/keyrings/oracle_vbox_2016.gpg
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle_vbox_2016.gpg] http://download.virtualbox.org/virtualbox/debian bookworm contrib" | tee /etc/apt/sources.list.d/virtualbox.list
+    apt update
+    apt install -y virtualbox-7.0
+    /sbin/usermod -aG vboxusers $USER
 }
 #=======================================================================
 ##Script
@@ -128,6 +136,16 @@ echo "Installation du Container Powershell"
 		echo "Installation de Container Powershell réussie"
 	else
 		echo "Erreur lors de l'installation de Container Powershell"
+		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
+	fi
+    sleep 2
+
+echo "Installation de VirtualBox"
+	if func_powershell 2>> $log_erreurs; then
+		echo "Installation de VirtualBox réussie"
+	else
+		echo "Erreur lors de l'installation de VirtualBox"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
         exit 1
 	fi

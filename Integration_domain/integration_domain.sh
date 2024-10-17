@@ -23,7 +23,7 @@ folder_file="/etc/pam.d/common-session"
 samba_file="/etc/samba/smb.conf"
 sssd_file="/etc/sssd/sssd.conf"
 domain="operis.champlan"
-Allowed_GG=(GRP_ADM_POSTE GRP_ADM_DOM "Tous les sites")
+Allowed_GG=(GRP_ADM_POSTE GRP_ADM_DOM GDL_Orvault GDL_LaRéunion GDL_Grenoble GDL_Champlan GDL_Bordeaux)
 local_admin="operis"
 GG_admin="grp_adm_poste"
 #=======================================================================
