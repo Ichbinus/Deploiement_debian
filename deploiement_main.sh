@@ -25,7 +25,7 @@ source "$folder/Laps_Linux/installation_laps.sh"
 source "$folder/VPN_Forticlient/Installation_vpn.sh"
 source "$folder/Agent_Wazhu/installation_wazhu.sh"
 #source "paramétrage des depots"
-#source "installation des paquets métier"
+source "$folder/Packages_métiers/installations_packages.sh"
 #source "installation applications (teams,...)"
 
 func_menu()
@@ -101,8 +101,8 @@ while true ;do
                 ;;
         p|P)
                 echo ""
-                #func_Installation des paquets métier
-                echo "Installation des paquets métier"
+                func_Installation des paquets métier
+                #echo "Installation des paquets métier"
                 ;;
         a|A)
                 echo ""
