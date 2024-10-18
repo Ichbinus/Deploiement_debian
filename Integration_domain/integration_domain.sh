@@ -3,7 +3,8 @@ func_integration_domain(){
 # FILE: ~integration_domain.sh
 # USAGE: ./~integration_domain.sh
 # DESCRIPTION: Intégration au domain operis, gestion des droits de connexion,
-# paramétrage de connexion kerberos, gestion des droits sudo
+# paramétrage de connexion kerberos, gestion des droits sudo, ajout d'une 
+# tâche cron de mise à jour automatique
 #
 # OPTIONS: ---
 # REQUIREMENTS: ---
