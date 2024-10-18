@@ -39,6 +39,7 @@ echo "O - Installation OCS"
 echo "L - Installation LAPS"
 echo "V - Installation vpn"
 echo "W - Installation Wazhu"
+echo "S - Montage des Partages Réseaux"
 echo "R - Paramétrage des depots"
 echo "P - Installation des paquets métier"
 echo ""
@@ -91,7 +92,7 @@ while true ;do
                 echo ""
                 func_wazhu
                 #echo "Installation Wazhu"
-                ;;        
+                ;;             
         r|R)
                 echo ""
                 #func_Paramétrage des depots
