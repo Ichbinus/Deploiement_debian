@@ -26,6 +26,10 @@ domain="operis.champlan"
 Allowed_GG=(GRP_ADM_POSTE GRP_ADM_DOM GDL_Orvault GDL_LaRéunion GDL_Grenoble GDL_Champlan GDL_Bordeaux)
 local_admin="operis"
 GG_admin="grp_adm_poste"
+cron_file="/etc/crontab"
+cron_job="0 9 * * * bash /root/apt-update.sh"
+script_auto_update_src="$folder/Integration_domain/apt-update.sh"
+script_auto_update_dst="/root/apt-update.sh"
 #=======================================================================
 ##Définition des fonctions
 func_dependances(){
@@ -148,6 +152,20 @@ func_root(){
         echo "Connexion root désactivée avec succès."
     else
         echo "Erreur lors de la désactivation de la connexion root."
+    fi
+}
+
+func_cron(){
+    sudo crontab -l | grep -F "$cron_job" > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "Le job cron existe déjà dans la crontab de root."
+    else
+        # tranfert du script d'update dans le dossier /root/
+        mv $script_auto_update_src $script_auto_update_dst
+        chown root:root $script_auto_update_dst
+        chmod +x $script_auto_update_dst
+        # Ajouter le nouveau job cron
+        (sudo crontab -l; echo "$cron_job") | sudo crontab -
     fi
 }
 
