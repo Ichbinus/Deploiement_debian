@@ -74,7 +74,6 @@ echo "decompression archive de l'Agent"
 		echo "Erreur lors de la décompression du package OCS"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
 	fi
-	cd folder
     sleep 2
 
 echo "Installation sans interaction de l'agent"
@@ -94,5 +93,6 @@ echo "test de la connexion au serveur"
 		echo "Tentative de connexion au serveur OCS échouée"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
 	fi
+	cd ../
     sleep 2
 }
