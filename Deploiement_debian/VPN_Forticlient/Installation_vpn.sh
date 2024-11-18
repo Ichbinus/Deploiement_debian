@@ -29,8 +29,8 @@ func_dependances(){
 }
 
 func_installation(){
-	wget -O - https://repo.fortinet.com/repo/7.0/ubuntu/DEB-GPG-KEY | apt-key add - #ajout de la clé du dépôt fortinet
-    printf "deb [arch=amd64 signed-by=/usr/share/keyrings/repo.fortinet.com.gpg] https://repo.fortinet.com/repo/7.0/ubuntu xenial multiverse\n" | tee /etc/apt/sources.list.d/repo.fortinet.com.list
+	wget -O - https://repo.fortinet.com/repo/7.0/ubuntu/DEB-GPG-KEY | | gpg --dearmor | sudo tee /usr/share/keyrings/repo.fortinet.com.gpg #ajout de la clé du dépôt fortinet
+    printf "deb [arch=amd64 signed-by=/usr/share/keyrings/repo.fortinet.com.gpg] https://repo.fortinet.com/repo/7.0/debian/ stable non-free\n" | tee /etc/apt/sources.list.d/repo.fortinet.com.list
     apt-get update
     apt install -y forticlient
     mv $CERT_PATH1 $CERT_PATH2
