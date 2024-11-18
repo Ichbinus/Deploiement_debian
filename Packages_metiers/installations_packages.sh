@@ -28,7 +28,7 @@ func_outils_admin_poste(){
 
 func_outils_devs(){
 	apt-get update
-    apt install -y git git-extras gitk meld jq yq fd-find ripgrep parcellite pandoc cloc fzf shellcheck dconf-cli gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager inotify-tools shutter sshfs terminator uuid wl-clipboard flatpak apache2 nginx make build-essential libssl-dev zlib1g-dev libreadline-dev libbz2-dev libsqlite3-dev llvm libncurses5-dev php keepass2 pass
+    apt install -y xwayland git git-extras gitk meld jq yq fd-find ripgrep parcellite pandoc cloc fzf shellcheck dconf-cli gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager inotify-tools shutter sshfs terminator uuid wl-clipboard apache2 nginx make build-essential libssl-dev zlib1g-dev libreadline-dev libbz2-dev libsqlite3-dev llvm libncurses5-dev php keepassxc pass libroffice
 }
 
 func_vscode(){
