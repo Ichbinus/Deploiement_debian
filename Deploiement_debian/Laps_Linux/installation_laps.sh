@@ -36,7 +36,7 @@ func_folder(){
 
 func_transfert(){
     cp $keytab_file $laps_folder
-    chmod u+x $laps_script
+    chmod +x $laps_script
     cp $laps_script $laps_folder 
 }
 
