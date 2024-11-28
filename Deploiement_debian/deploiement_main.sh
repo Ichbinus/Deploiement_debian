@@ -32,7 +32,7 @@ func_menu()
 ## affichage du menu
 echo "GESTION DE DEPLOIEMENT DE POSTES DEBIAN"
 echo "----------------------------------------"
-echo "G - Déploiement/intégration complète du poste au domaine"
+echo "U - Déploiement/intégration complète au domaine type poste utilisateur"
 echo "M - Installation Malwarebytes"
 echo "D - Intégration au domaine"
 echo "O - Installation OCS"
@@ -46,6 +46,8 @@ echo ""
 echo "Q - quitter"
 read -n 1 -p "votre choix: " choix
 }
+
+
 #=======================================================================
 ## Nettoyage de l'écran
 clear
@@ -59,10 +61,14 @@ while true ;do
         ## gestion des saisies de choix
         case $choix in
 
-        g|G)
-                #func_Déploiement/intégration complète du poste au domaine
-                echo "Déploiement/intégration complète du poste au domaine"
+        u|U)
+                #func_Déploiement/intégration complète au domaine type poste utilisateur
+                echo "Déploiement/intégration complète au domaine type poste utilisateur"
                 ;;
+        s|S)
+                #func_Déploiement/intégration complète au domaine type Serveur
+                echo "Déploiement/intégration complète au domaine type Serveur"
+                ;;        
         m|M)
                 echo ""
                 func_malwarebytes
