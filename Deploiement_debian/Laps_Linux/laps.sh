@@ -95,7 +95,7 @@ EXPIRATION_TIME=$(dt_to_filetime "$PASSWORD_LAST_MODIFIED_EN")
 kinit "$LDAP_USER" -k -t /etc/laps/User_Laps4Linux.keytab
 
 ## Obtenir l'objet Ordinateur de la machine
-FQHN=$(ldapsearch -H $LDAP_URI -Y GSSAPI -U $LDAP_USER -b $BASE_DN "(cn=$HOSTNAME)" dn | grep -oP '^dn: \KCN=.*')
+FQHN=$(ldapsearch -o ldif_wrap=no -H $LDAP_URI -Y GSSAPI -U $LDAP_USER -b $BASE_DN "(cn=$HOSTNAME)" dn | grep -oP '^dn: \KCN=.*')
 
 ## Mettre à jour l'attributs ms-Mcs-AdmPwd de l'objet ordinateur dans AD
 AD_ATTRIBUTE="ms-Mcs-AdmPwd"
