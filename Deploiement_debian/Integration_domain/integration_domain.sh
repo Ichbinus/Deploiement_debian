@@ -108,7 +108,9 @@ chmod 600 /etc/sssd/sssd.conf
 
 func_allowedgg(){
     realm permit -g utilisateurs\ du\ domaine@operis.champlan  >> /dev/null 2>> $log_erreurs
+    sleep 2
     realm permit -g GRP_ADM_POSTE  >> /dev/null 2>> $log_erreurs
+    sleep 2
     realm permit -g GRP_ADM_DOM  >> /dev/null 2>> $log_erreurs
     }
 
