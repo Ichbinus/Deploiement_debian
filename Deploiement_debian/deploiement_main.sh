@@ -33,6 +33,7 @@ func_menu()
 echo "GESTION DE DEPLOIEMENT DE POSTES DEBIAN"
 echo "----------------------------------------"
 echo "U - Déploiement/intégration complète au domaine type poste utilisateur"
+echo "S - Déploiement/intégration complète au domaine type Serveur"
 echo "M - Installation Malwarebytes"
 echo "D - Intégration au domaine"
 echo "O - Installation OCS"
@@ -76,7 +77,8 @@ while true ;do
                 ;;
         d|D)
                 echo ""
-                func_integration_domain
+                #func_integration_domain
+                echo "$folder/Integration_domain/integration_domain.sh"
                 #echo "Intégration au domaine"
                 ;;
         o|O)

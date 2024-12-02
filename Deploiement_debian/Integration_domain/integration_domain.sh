@@ -35,12 +35,12 @@ script_auto_update_dst="/root/apt-update.sh"
 func_dependances(){
 	apt-get update
 	apt install -y realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin oddjob oddjob-mkhomedir packagekit policykit-1 ntpdate ntp krb5-user libsss-sudo libsasl2-modules-ldap libpam-mount samba samba-common
-}
+    }
 
 func_nommage(){
     echo $nom_poste > /etc/hostname
     sed -i "/^127.0.1.1/c\127.0.1.1 $nom_poste.operis.champlan $nom_poste" /etc/hosts
-}
+    }
 
 func_krb5(){
 cat <<EOF > $krb5_file
@@ -57,22 +57,22 @@ default_realm = OPERIS.CHAMPLAN
 [domain_realm]
 
 EOF
-}
+    }
 
 func_heure(){
     sed -i '/# Specify one or more NTP servers./a server 192.168.3.72' $ntp_file
-}
+    }
 
 func_user_folder(){
     sed -i '/# end of pam-auth-update config/i session optional pam_mkhomedir.so skel=/etc/skel umask=077' $folder_file
-}
+    }
 
 func_samba(){
     sed -i "/workgroup = WORKGROUP/c\workgroup = OPERIS" $samba_file
     sed -i '/workgroup = OPERIS/a realm = OPERIS.CHAMPLAN' $samba_file
     sed -i '/realm = OPERIS.CHAMPLAN/a encrypt passwords = yes' $samba_file
     sed -i '/encrypt passwords = yes/a client protection = encrypt' $samba_file
-}
+    }
 
 func_sssd(){
     touch $sssd_file
@@ -103,14 +103,14 @@ EOF
 cp /usr/lib/x86_64-linux-gnu/sssd/conf/sssd.conf /etc/sssd/.
 chmod 600 /etc/sssd/sssd.conf
 
-}
+    }
 
 func_allowedgg(){
     realm permit -g utilisateurs\ du\ domaine@operis.champlan  >> /dev/null 2>> $log_erreurs
     realm permit -g GRP_ADM_POSTE  >> /dev/null 2>> $log_erreurs
     realm permit -g GRP_ADM_DOM  >> /dev/null 2>> $log_erreurs
     done
-}
+    }
 
 func_sudo() {
     local sudoers_file="/etc/sudoers"
@@ -138,7 +138,7 @@ func_sudo() {
         echo "Erreur de syntaxe dans le fichier sudoers. Restauration de la sauvegarde."
         cp ${sudoers_file}.bak $sudoers_file
     fi
-}
+    }
 
 
 func_root(){

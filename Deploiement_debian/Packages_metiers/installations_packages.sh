@@ -157,4 +157,14 @@ echo "Installation de VirtualBox"
         exit 1
 	fi
     sleep 2
+
+echo "Installation de Google Chrome"
+	if func_Chrome 2>> $log_erreurs; then
+		echo "Installation de Google Chrome réussie"
+	else
+		echo "Erreur lors de l'installation de Google Chrome"
+		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
+	fi
+    sleep 2
 }
