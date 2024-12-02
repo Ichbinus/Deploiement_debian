@@ -24,7 +24,6 @@ folder_file="/etc/pam.d/common-session"
 samba_file="/etc/samba/smb.conf"
 sssd_file="/etc/sssd/sssd.conf"
 domain="operis.champlan"
-Allowed_GG=(GRP_ADM_POSTE GRP_ADM_DOM GDL_Orvault GDL_LaRéunion GDL_Grenoble GDL_Champlan GDL_Bordeaux "Tous les sites")
 local_admin="operis"
 GG_admin="grp_adm_poste"
 cron_file="/etc/crontab"
@@ -107,8 +106,9 @@ chmod 600 /etc/sssd/sssd.conf
 }
 
 func_allowedgg(){
-    for GG in $Allowed_GG; do
-        realm permit -g $GG  >> /dev/null 2>> $log_erreurs
+    realm permit -g utilisateurs\ du\ domaine@operis.champlan  >> /dev/null 2>> $log_erreurs
+    realm permit -g GRP_ADM_POSTE  >> /dev/null 2>> $log_erreurs
+    realm permit -g GRP_ADM_DOM  >> /dev/null 2>> $log_erreurs
     done
 }
 
