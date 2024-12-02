@@ -77,8 +77,7 @@ while true ;do
                 ;;
         d|D)
                 echo ""
-                #func_integration_domain
-                echo "$folder/Integration_domain/integration_domain.sh"
+                func_integration_domain
                 #echo "Intégration au domaine"
                 ;;
         o|O)

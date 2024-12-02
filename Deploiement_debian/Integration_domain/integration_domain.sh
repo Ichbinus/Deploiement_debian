@@ -1,4 +1,5 @@
-func_integration_domain(){
+func_integration_domain()
+{
 #=======================================================================
 # FILE: ~integration_domain.sh
 # USAGE: ./~integration_domain.sh
@@ -109,7 +110,6 @@ func_allowedgg(){
     realm permit -g utilisateurs\ du\ domaine@operis.champlan  >> /dev/null 2>> $log_erreurs
     realm permit -g GRP_ADM_POSTE  >> /dev/null 2>> $log_erreurs
     realm permit -g GRP_ADM_DOM  >> /dev/null 2>> $log_erreurs
-    done
     }
 
 func_sudo() {
