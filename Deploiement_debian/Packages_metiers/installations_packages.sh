@@ -109,6 +109,16 @@ Pin-Priority: 1000
     apt install -y firefox
 }
 
+func_language(){
+    echo "Generating English locale (en_US.UTF-8)..."
+    sudo sed -i '/en_US.UTF-8/s/^# //' /etc/locale.gen
+    sudo locale-gen
+
+    echo "Setting English locale as default..."
+    echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\nLC_ALL="en_US.UTF-8"' | sudo tee /etc/default/locale > /dev/null
+
+    echo "Language changed to English. Please reboot the system to apply changes."
+}
 #=======================================================================
 ##Script
 
@@ -211,4 +221,21 @@ echo "Gestion version Firefox"
         exit 1
 	fi
     sleep 2
+
+echo "Gestion language du Poste"
+echo "Voulez-vous changer la langue en anglais? (oui/non)"
+read -r response
+if [[ "$response" =~ ^(oui|o)$ ]]; then
+    if func_language 2>> $log_erreurs; then
+		echo "Le changement de language sera effectif au redémarrage du poste"
+	else
+		echo "Erreur lors du changement de language"
+		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
+	fi
+    sleep 2
+else
+    echo "Pas de changement de language."
+fi	
+	
 }
