@@ -110,14 +110,13 @@ Pin-Priority: 1000
 }
 
 func_language(){
-    echo "Generating English locale (en_US.UTF-8)..."
+    echo "Generation locale Anglais(en_US.UTF-8)..."
     sudo sed -i '/en_US.UTF-8/s/^# //' /etc/locale.gen
     sudo locale-gen
 
-    echo "Setting English locale as default..."
+    echo "Paramétrage de l'anglais par defaut..."
     echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\nLC_ALL="en_US.UTF-8"' | sudo tee /etc/default/locale > /dev/null
 
-    echo "Language changed to English. Please reboot the system to apply changes."
 }
 #=======================================================================
 ##Script
