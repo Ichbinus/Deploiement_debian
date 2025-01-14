@@ -85,6 +85,30 @@ func_virtualbox(){
     apt install -y virtualbox-7.0
     /sbin/usermod -aG vboxusers $USER
 }
+
+func_anydesk(){
+	wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | apt-key add -
+    echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk-stable.list
+    apt update
+    apt install -y anydesk
+}
+
+func_firefox(){
+	apt remove firefox-esr
+	sudo install -d -m 0755 /etc/apt/keyrings
+	wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+	gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nL’empreinte numérique de la clé correspond ("$0").\n"; else print "\nÉchec de vérification de la clé : l’empreinte ("$0") ne correspond pas à celle attendue.\n"}'
+    echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+    cat <<EOF > "/etc/apt/preferences.d/mozilla"
+Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+
+EOF
+	apt update
+    apt install -y firefox
+}
+
 #=======================================================================
 ##Script
 
@@ -163,6 +187,26 @@ echo "Installation de Google Chrome"
 		echo "Installation de Google Chrome réussie"
 	else
 		echo "Erreur lors de l'installation de Google Chrome"
+		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
+	fi
+    sleep 2
+
+echo "Installation d'Anydesk"
+	if func_anydesk 2>> $log_erreurs; then
+		echo "Installation d'Anydesk réussie"
+	else
+		echo "Erreur lors de l'installation d'Anydesk"
+		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
+	fi
+    sleep 2
+
+echo "Gestion version Firefox"
+	if func_anydesk 2>> $log_erreurs; then
+		echo "Installation d'Anydesk réussie"
+	else
+		echo "Erreur lors de l'installation d'Anydesk"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
         exit 1
 	fi
