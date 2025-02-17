@@ -27,10 +27,7 @@ sssd_file="/etc/sssd/sssd.conf"
 domain="operis.champlan"
 local_admin="operis"
 GG_admin="grp_adm_poste"
-cron_file="/etc/crontab"
-cron_job="0 9 * * * bash /root/apt-update.sh"
-script_auto_update_src="$folder/Integration_domain/apt-update.sh"
-script_auto_update_dst="/root/apt-update.sh"
+update_file="/etc/apt/apt.conf.d/50unattended-upgrades"
 #=======================================================================
 ##Définition des fonctions
 func_dependances(){
@@ -158,18 +155,29 @@ func_root(){
     fi
 }
 
-func_cron(){
-    sudo crontab -l | grep -F "$cron_job" > /dev/null
-    if [ $? -eq 0 ]; then
-        echo "Le job cron existe déjà dans la crontab de root."
-    else
-        # tranfert du script d'update dans le dossier /root/
-        mv $script_auto_update_src $script_auto_update_dst
-        chown root:root $script_auto_update_dst
-        chmod +x $script_auto_update_dst
-        # Ajouter le nouveau job cron
-        (sudo crontab -l; echo "$cron_job") | sudo crontab -
-    fi
+func_update(){
+    apt update && apt upgrade -y
+    apt install unattended-upgrades -y
+    # activation update pour tous les repos enregistrés
+    sed -i 's|^        // *\(.*origin=Debian,codename=${distro_codename}-updates.*\)|\1|' "$FILE"
+    sed -i 's|^        // *\(.*origin=Debian,codename=${distro_codename}-proposed-updates.*\)|\1|' "$FILE"
+    # désactivation update paquet forticlient
+    sed -i '/^\/\/  "linux-";/a\    "forticlient";' "$FILE"
+    # activation désinstallation des dépendances inutiles
+    sed -i 's|^// *\(.*Unattended-Upgrade::Remove-New-Unused-Dependencies "true";*\)|\1|' "$FILE"
+    sed -i 's|^// *\(.*Unattended-Upgrade::Remove-Unused-Dependencies\) "false";|\1 "true";|' "$FILE"
+    # activation des logs d'update
+    sed -i 's|^// *\(.*Unattended-Upgrade::SyslogEnable\) "false";|\1 "true";|' "$FILE"   
+    # copie de modèle de conf
+    cp /usr/share/unattended-upgrades/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades
+    # écrasement du contenu par la conf par défaut
+    cat <<EOF > /etc/apt/apt.conf.d/20auto-upgrades
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "30";
+EOF
+    unattended-upgrades
 }
 
 #=======================================================================
@@ -296,6 +304,17 @@ echo "Gestion des droits sudos"
 		echo "Gestion des droits sudos réussie"
 	else
 		echo "Erreur dans la gestion des droits sudos"
+		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
+        exit 1
+	fi
+    sleep 2
+
+##gestion des mise à jour
+echo "Gestion des mise à jour"
+	if func_update >> /dev/null 2>> $log_erreurs; then
+		echo "Gestion des mise à jour"
+	else
+		echo "Erreur dans la gestion des mise à jour"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
         exit 1
 	fi
