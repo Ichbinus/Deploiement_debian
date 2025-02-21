@@ -29,7 +29,7 @@ func_outils_admin_poste(){
 
 func_outils_devs(){
 	apt-get update
-    apt install -y git git-extras gitk meld jq yq fd-find ripgrep parcellite pandoc cloc fzf shellcheck dconf-cli gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager inotify-tools shutter sshfs terminator uuid wl-clipboard flatpak apache2 nginx make build-essential libssl-dev zlib1g-dev libreadline-dev libbz2-dev libsqlite3-dev llvm libncurses5-dev php keepass2 pass vlc rsync zip
+    apt install -y git git-extras gitk meld jq yq fd-find ripgrep parcellite pandoc cloc fzf shellcheck dconf-cli gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager inotify-tools shutter sshfs terminator uuid wl-clipboard flatpak apache2 nginx make build-essential libssl-dev zlib1g-dev libreadline-dev libbz2-dev libsqlite3-dev llvm libncurses5-dev php keepass2 pass vlc rsync zip dos2unix
 }
 
 func_Chrome(){
