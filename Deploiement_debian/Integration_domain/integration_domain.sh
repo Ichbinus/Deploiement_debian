@@ -159,15 +159,15 @@ func_update(){
     apt update && apt upgrade -y
     apt install unattended-upgrades -y
     # activation update pour tous les repos enregistrés
-    sed -i 's|^        // *\(.*origin=Debian,codename=${distro_codename}-updates.*\)|\1|' "$FILE"
-    sed -i 's|^        // *\(.*origin=Debian,codename=${distro_codename}-proposed-updates.*\)|\1|' "$FILE"
+    sed -i 's|^        // *\(.*origin=Debian,codename=${distro_codename}-updates.*\)|\1|' "$update_file"
+    sed -i 's|^        // *\(.*origin=Debian,codename=${distro_codename}-proposed-updates.*\)|\1|' "$update_file"
     # désactivation update paquet forticlient
-    sed -i '/^\/\/  "linux-";/a\    "forticlient";' "$FILE"
+    sed -i '/^\/\/  "linux-";/a\    "forticlient";' "$update_file"
     # activation désinstallation des dépendances inutiles
-    sed -i 's|^// *\(.*Unattended-Upgrade::Remove-New-Unused-Dependencies "true";*\)|\1|' "$FILE"
-    sed -i 's|^// *\(.*Unattended-Upgrade::Remove-Unused-Dependencies\) "false";|\1 "true";|' "$FILE"
+    sed -i 's|^// *\(.*Unattended-Upgrade::Remove-New-Unused-Dependencies "true";*\)|\1|' "$update_file"
+    sed -i 's|^// *\(.*Unattended-Upgrade::Remove-Unused-Dependencies\) "false";|\1 "true";|' "$update_file"
     # activation des logs d'update
-    sed -i 's|^// *\(.*Unattended-Upgrade::SyslogEnable\) "false";|\1 "true";|' "$FILE"   
+    sed -i 's|^// *\(.*Unattended-Upgrade::SyslogEnable\) "false";|\1 "true";|' "$update_file"   
     # copie de modèle de conf
     cp /usr/share/unattended-upgrades/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades
     # écrasement du contenu par la conf par défaut

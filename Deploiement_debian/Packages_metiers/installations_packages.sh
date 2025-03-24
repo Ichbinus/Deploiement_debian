@@ -57,26 +57,16 @@ func_dbeaver(){
     apt install -y dbeaver-ce
 }
 
-func_docker(){
-	install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-    chmod a+r /etc/apt/keyrings/docker.asc
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list 
+func_podman(){
     apt update
-    apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    groupadd docker
-    usermod -aG docker $USER
-}
-
-func_powershell(){
-	install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-    chmod a+r /etc/apt/keyrings/docker.asc
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" > /etc/apt/sources.list.d/docker.list 
-    apt update
-    apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    groupadd docker
-    usermod -aG docker $USER
+    apt apt-get -y install podman
+	# Attention, paramétrage manuel à faire pour les uid et gid des processus podman:
+	# sudo nano /etc/subgid
+	# operis:100000:65536
+	# "user"@OPERIS.CHAMPLAN:200000:65536
+	# sudo nano /etc/subuid
+	# operis:100000:65536
+	# "user"@OPERIS.CHAMPLAN:200000:65536
 }
 
 func_virtualbox(){
@@ -161,11 +151,11 @@ echo "Installation de DBeaver"
 	fi
     sleep 2
 
-echo "Installation de Docker"
-	if func_docker 2>> $log_erreurs; then
-		echo "Installation de Docker réussie"
+echo "Installation de Podman"
+	if func_podman 2>> $log_erreurs; then
+		echo "Installation de Podman réussie"
 	else
-		echo "Erreur lors de l'installation de Docker"
+		echo "Erreur lors de l'installation de Podman"
 		echo "logs d'erreurs disponibles dans le fichier: $log_erreurs"
         exit 1
 	fi
