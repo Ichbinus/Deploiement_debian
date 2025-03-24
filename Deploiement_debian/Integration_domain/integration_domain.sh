@@ -78,10 +78,6 @@ func_sssd(){
 [sssd]
 domains = OPERIS.CHAMPLAN
 config_file_version = 2
-# services = nss, pam => ces services sont censés démarrer tout seuls, voir logs ci-dessous lus lors de bugs avec la synchro AD
-# The pam responder has been configured to be socket-activated but it's still mentioned in the services' line in /etc/sssd/sssd.conf.
-# Please, consider either adjusting your services' line in /etc/sssd/sssd.conf or disabling the pam's socket by calling:
-# "systemctl disable sssd-pam.socket"
  
 [domain/OPERIS.CHAMPLAN]
 default_shell = /bin/bash
@@ -98,8 +94,10 @@ access_provider = ad
 ad_gpo_ignore_unreadable = true
 EOF
 
-cp /usr/lib/x86_64-linux-gnu/sssd/conf/sssd.conf /etc/sssd/.
-chmod 600 /etc/sssd/sssd.conf
+    cp /usr/lib/x86_64-linux-gnu/sssd/conf/sssd.conf /etc/sssd/.
+    sed -i 's/services = \(.*\)\<nss\>\(, \|\)\(.*\)/services = \1\3/' "$sssd_file"
+    sed -i 's/services = \(.*\)\<pam\>\(, \|\)\(.*\)/services = \1\3/' "$sssd_file"
+    chmod 600 /etc/sssd/sssd.conf
 
     }
 
