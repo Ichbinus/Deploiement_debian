@@ -53,13 +53,13 @@ func_dbeaver(){
 	echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
     apt install software-properties-common apt-transport-https ca-certificates
     curl -fsSL https://dbeaver.io/debs/dbeaver.gpg.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/dbeaver.gpg
-    apt update
+    a pt update
     apt install -y dbeaver-ce
 }
 
 func_podman(){
     apt update
-    apt apt-get -y install podman
+    apt-get -y install podman
 	# Attention, paramétrage manuel à faire pour les uid et gid des processus podman:
 	# sudo nano /etc/subgid
 	# operis:100000:65536
